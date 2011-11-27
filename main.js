@@ -3,7 +3,7 @@ const request = '<b><span class="r">Request Headers</span></b>: <br />';
 const response = '<b><span class="r">Response Headers</span></b>: <br />';
 const statusline = '<b><span class="r">Status Line</span></b>: <br />';
 
-const ext_version = 0.1;
+const ext_version = 0.05;
 var isCapture = true;
 
 $(document).ready(function() {
@@ -81,5 +81,12 @@ function onSendHeaders(details) {
 				.addClass('detail')
 				.css('display', 'none')
 				.appendTo($('div#content'));//$(document.body));
+		if ($('#as').attr('checked')) {
+			_scroll($(document).height(), 0);
+		}
 	}
+}
+
+function _scroll(height, duration) {
+	$(document.body).animate({scrollTop:height}, duration);
 }
