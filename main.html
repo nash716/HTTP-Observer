@@ -14,7 +14,8 @@
 			font-family: 'Droid Sans Mono', sans-serif;
 			font-size: 9pt;
 			word-break: break-all;
-			height: 100%;
+		/*	height: 100%; */
+			padding-top: 25px;
 		/*	overflow: hidden; */
 		}
 		.caption {
@@ -45,14 +46,13 @@
 			background-color: white;
 		}
 		div#content {
-			height: 100%;
-			padding-top: 25px;
+		/*	height: 100%; */
 		}
 	</style>
 </head>
 <body>
 <div id="header">
-HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred
+HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$(document.body).animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$(document.body).animate({scrollTop:$(document).height()}, 800);">bottom</a>
 <hr />
 </div>
 <div id="content"></div>

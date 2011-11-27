@@ -8,7 +8,7 @@ var isCapture = true;
 
 $(document).ready(function() {
 	if (ext_version < version) {
-		$('div#header hr').before(' | New version available!');
+		$('div#header hr').before(' | <a href="javascript:chrome.tabs.create({url:\'' + download + '\', selected:true});">New version available!</a>');
 	}
 });
 
@@ -19,9 +19,15 @@ chrome.experimental.webRequest.onCompleted.addListener(function(details) {
 		return;
 	}
 	if (isCapture) {
+		var addCls;
+		if (details.statusLine.match('404') || details.statusLine.match('400') || details.statusLine.match('403') || details.statusLine.match('405') || details.statusLine.match('406') || details.statusLine.match('401') || details.statusLine.match('500') || details.statusLine.match('502') || details.statusLine.match('503') || details.statusLine.match('504')) {
+			addCls = 'error';
+		} else {
+			addCls = 'ok';
+		}
 		$('div#' + details.requestId).children('span.sent')
 							.removeClass('sent')
-							.addClass('ok'); // TODO
+							.addClass(addCls); // TODO
 		
 		var str = $('div#' + details.requestId).next().html();
 		str = statusline + details.statusLine + '<br />' + str;
@@ -44,7 +50,7 @@ chrome.experimental.webRequest.onErrorOccurred.addListener(function(details) {
 							.removeClass('sent')
 							.addClass('error');
 		var str = $('div#' + details.requestId).next().html();
-		str += '<br /><b><span class="error">Error:</span></b><br />' + details.error;
+		str += '<br /><b><span class="error r">Error:</span></b><br />' + details.error;
 		$('div#' + details.requestId).next().html(str);
 	}
 }, { });
