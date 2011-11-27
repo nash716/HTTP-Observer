@@ -3,7 +3,7 @@ const request = '<b><span class="r">Request Headers</span></b>: <br />';
 const response = '<b><span class="r">Response Headers</span></b>: <br />';
 const statusline = '<b><span class="r">Status Line</span></b>: <br />';
 
-const ext_version = 0.05;
+const ext_version = 0.1;
 var isCapture = true;
 
 $(document).ready(function() {
