@@ -4,11 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript">
 	chrome.browserAction.onClicked.addListener(function(tab) {
-		window.open(chrome.extension.getURL('main.html'), '', 'width=1100px,height=400px');
-	/*	chrome.tabs.create({
-			url: 'main.html',
-			selected: false
-		}); */
+		chrome.windows.getAll({ populate: true} , function(windows) {
+			for (var i=0; i<windows.length; i++) {
+				var tabs = windows[i].tabs;
+				for (var j=0; j<tabs.length; j++) {
+					if (tabs[j].url.match(chrome.extension.getURL('main.html'))) {
+						chrome.tabs.update(parseInt(tabs[j].id), { selected: true });
+						return;
+					}
+				}
+			}
+			chrome.tabs.create({
+				url: 'main.html',
+				selected: true
+			});
+		});
 	});
 </script>
 </head>

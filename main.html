@@ -12,14 +12,21 @@
 		}
 		body {
 			font-family: 'Droid Sans Mono', sans-serif;
-			font-size: 9pt;
+			font-size: 10.5pt;
 			word-break: break-all;
 		/*	height: 100%; */
 			padding-top: 25px;
-		/*	overflow: hidden; */
+			overflow: hidden;
+		}
+		.path {
+			color: #888888;
+			font-size: 9pt;
 		}
 		.caption {
 			cursor: pointer;
+		}
+		.caption:hover {
+			background-color: #eef;
 		}
 		.detail {
 			padding-left: 20px;
@@ -44,17 +51,26 @@
 			height: 20px;
 			padding: 5px 5px;
 			background-color: white;
+			font-size: 9pt;
 		}
 		div#content {
+			width: 65%;
+			float: right;
 		/*	height: 100%; */
+			overflow-y: auto;
+		}
+		div#list {
+			width: 35%;
+			float: left;
+			overflow-y: auto;
 		}
 	</style>
 </head>
 <body>
 <div id="header">
-HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$(document.body).animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$(document.body).animate({scrollTop:$(document).height()}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input>
-<hr />
-</div>
+HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input>
+<hr /></div>
+<div id="list"></div>
 <div id="content"></div>
 </body>
 </html>

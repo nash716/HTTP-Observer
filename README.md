@@ -1,5 +1,6 @@
 # HTTP Observer
-
+## これは何？
+  ChromeでHTTPヘッダを確認する拡張機能です。
 ## インストール
   chrome://flags にて Experimental API を有効にしてください。  
   http-observer.crx を Chrome のウインドウにドラッグしてください。
