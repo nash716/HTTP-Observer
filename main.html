@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="header">
-HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input><br />Capture for: <select id="target"></select>
+HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input><br />Capture: <select id="target"></select>
 <hr /></div>
 <div id="list"></div>
 <div id="content"></div>
