@@ -15,7 +15,7 @@
 			font-size: 10.5pt;
 			word-break: break-all;
 		/*	height: 100%; */
-			padding-top: 25px;
+			padding-top: 55px;
 			overflow: hidden;
 		}
 		.path {
@@ -48,7 +48,7 @@
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 20px;
+			height: 40px;
 			padding: 5px 5px;
 			background-color: white;
 			font-size: 9pt;
@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="header">
-HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input>
+HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input><br />Capture for: <select id="target"></select>
 <hr /></div>
 <div id="list"></div>
 <div id="content"></div>
