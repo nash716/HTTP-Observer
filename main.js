@@ -8,9 +8,10 @@ const request = '<b><span class="r">Request Headers</span></b>: <br />';
 const response = '<b><span class="r">Response Headers</span></b>: <br />';
 const statusline = '<b><span class="r">Status Line</span></b>: <br />';
 
-const ext_version = 0.2;
+const ext_version = 0.22;
 var isCapture = true;
 var captureTarget = 'all';
+var filterObject = { urls: [ 'http://*/*', 'https://*/*' ] };
 
 $(document).ready(function() {
 	setTimeout(function() {
@@ -42,11 +43,11 @@ $(document).ready(function() {
 	});
 });
 
-chrome.experimental.webRequest.onSendHeaders.addListener(onSendHeaders, { }, ['requestHeaders']);
+chrome.webRequest.onSendHeaders.addListener(onSendHeaders, filterObject, ['requestHeaders']);
 
-chrome.experimental.webRequest.onCompleted.addListener(onCompleted, { }, ['responseHeaders']);
+chrome.webRequest.onCompleted.addListener(onCompleted, filterObject, ['responseHeaders']);
 
-chrome.experimental.webRequest.onErrorOccurred.addListener(onErrorOccurred, { });
+chrome.webRequest.onErrorOccurred.addListener(onErrorOccurred, filterObject);
 
 chrome.tabs.onRemoved.addListener(onTabsChanged);
 
