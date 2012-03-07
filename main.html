@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <head>
-	<meta charset="utf-8"></meta>
+	<meta charset="utf-8">
 	<title>HTTP Observer</title>
 	<script src="jquery.js" type="text/javascript"></script>
 	<script src="main.js" type="text/javascript"></script>
-	<script src="http://chrome.nash-dev.com/observer.version.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+	<script src="bootstrap-dropdown.js" type="text/javascript"></script>
+	<script src="bootstrap-modal.js" type="text/javascript"></script>
+	<script src="bootstrap-tab.js" type="text/javascript"></script>
+	<link href="bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		html {
-			height: 100%;
-		}
-		body {
-			font-family: 'Droid Sans Mono', sans-serif;
-			font-size: 10.5pt;
 			word-break: break-all;
-		/*	height: 100%; */
-			padding-top: 55px;
-			overflow: hidden;
+			overflow-y: hidden;
+			margin-top: 45px;
+		}
+		div#list {
+			overflow-y: auto;
+		}
+		div.tab-content {
+			overflow-y: auto;
+		}
+		.nav li a {
+			display: block;
+			cursor: pointer;	
 		}
 		.path {
 			color: #888888;
@@ -40,37 +47,247 @@
 		.ok {
 			color: green;
 		}
-		.r {
-			margin-left: -10px;
+		input[type=number] {
+			text-align: right;
 		}
-		div#header {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 40px;
-			padding: 5px 5px;
-			background-color: white;
-			font-size: 9pt;
+		.expand, .expand:hover, .expand:visited {
+			color: #333;
+			text-decoration: none;
+			cursor: normal;
 		}
-		div#content {
-			width: 65%;
-			float: right;
-		/*	height: 100%; */
-			overflow-y: auto;
+	/* Bootstrap */
+		.navbar {
+			box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1) !important;
 		}
-		div#list {
-			width: 35%;
-			float: left;
-			overflow-y: auto;
+		.navbar-inner {
+			background-image: -webkit-linear-gradient(top, whiteSmoke 0%,#EEE 100%) !important;
+		}
+		.brand {
+			color: #346 !important;
+			font-weight: bold !important;
+		}
+		.navbar .nav > li > a {
+			color: #08C !important;
+			text-shadow: none !important;
+		}
+		.navbar .nav .dropdown-toggle .caret, .navbar .nav .open.dropdown .caret {
+			border-top: 4px solid #08c !important;
+		}
+		.navbar .nav > li > a:hover {
+			color: #16a !important;
 		}
 	</style>
 </head>
 <body>
-<div id="header">
-HTTP Observer | <a href="javascript:location.reload()">Clear</a> | <a href="javascript:(function() { var el=document.getElementById('control'); isCapture=!isCapture; el.innerHTML = isCapture ? 'Capturing…' : 'Capture';})();" id="control">Capturing…</a> | <span class="sent">●</span>: Sent Headers, <span class="ok">●</span>: Completed, <span class="error">●</span>: An error occurred | Jump to <a href="javascript:$('div#list').animate({scrollTop:0}, 800);">top</a>, <a href="javascript:$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">bottom</a> | <input type="checkbox" id="as">Auto Scroll</input><br />Capture: <select id="target"></select>
-<hr /></div>
-<div id="list"></div>
-<div id="content"></div>
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="brand">HTTP Observer</a>
+			<ul class="nav">
+				<li><a onclick="location.reload();">Clear</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						Jump
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a onclick="$('div#list').animate({scrollTop:0}, 800);">to Top</a></li>
+						<li><a onclick="$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">to Bottom</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav pull-right">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						Settings
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a id="checkbox"><input type="checkbox" id="as">&nbsp;Auto Scroll</input></a></li>
+						<li><a id="checkbox-capture"><input type="checkbox" id="iscapture" checked>&nbsp;Capture</input></a></li>
+						<li><a data-toggle="modal" href="#capture">Capture Target</a></li>
+						<li><a data-toggle="modal" href="#threshold">Threshold for omitting</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						Help
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a data-toggle="modal" href="#usage">Usage</a></li>
+						<li class="divider"></li>
+						<li><a data-toggle="modal" href="#update">Check for updates</a></li>
+						<li><a data-toggle="modal" href="#about">About HTTP Observer</a></li>
+					</ul>
+				</li>
+			</ul>
+    	</div>
+    </div>
+</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span4" id="list">
+		</div>
+		<div class="span8">
+			<div class="tabbable">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#status-line" data-toggle="tab">Status Line</a></li>
+					<li><a href="#request" data-toggle="tab">Request Headers</a></li>
+					<li><a href="#response" data-toggle="tab">Response Headers</a></li>
+					<li><a href="#error" data-toggle="tab">Error</a></li>
+					<li><a href="#details" data-toggle="tab">Details</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="status-line">No contents</div>
+					<div class="tab-pane" id="request">No contents</div>
+					<div class="tab-pane" id="response">No contents</div>
+					<div class="tab-pane" id="error">No contents</div>
+					<div class="tab-pane" id="details">No contents</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="usage" style="display:none">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>Usage</h3>
+	</div>
+	<div class="modal-body">
+		<table class="table table-condensed" id="icon-table">
+			<thead>
+				<tr>
+					<th style="width: 70px; text-align: center">Icon</th>
+					<th>Meaning</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align: center"><i class="icon-list"></i></td>
+					<td>Creating request</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-minus"></i></td>
+					<td>Sending headers</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-arrow-right"></i></td>
+					<td>Sent headers</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-download-alt"></i></td>
+					<td>Received headers</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-download"></i></td>
+					<td>Receivng response</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-lock"></i></td>
+					<td>Authentication required</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-share-alt"></i></td>
+					<td>Redirecting</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-ok"></i></td>
+					<td>Completed</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><i class="icon-warning-sign"></i></td>
+					<td>An error occurred</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+		<a class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>
+
+<div class="modal fade" id="capture" style="display:none">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>Capture Target</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			Capture Target: <select id="target"></select>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a class="btn btn-primary" data-dismiss="modal" onclick="targetSave();">Save changes</a>
+		<a class="btn" data-dismiss="modal">Cancel</a>
+	</div>
+</div>
+
+<div class="modal fade" id="threshold" style="display:none">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>Threshold for omitting</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="listview">List view</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="listview">
+							<p class="help-block">Not omitted in the 0</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="detailview">Detail view</label>
+						<div class="controls">
+							<input type="number" class="input-xlarge" id="detailview">
+							<p class="help-block">Not omitted in the 0</p>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a class="btn btn-primary" data-dismiss="modal" onclick="thresholdSave();">Save changes</a>
+		<a class="btn" data-dismiss="modal">Cancel</a>
+	</div>
+</div>
+<div class="modal fade" id="update" style="display: none">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>Check for updates</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<div id="checkupdate">Checking for updates...</div>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>
+
+<div class="modal fade" id="about" style="display: none">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+		<h3>About HTTP Observer</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<img src="icon64.png" style="vertical-align: middle" /> HTTP Observer<br /><br />
+			Copyright &copy; 2012- nash. All Rights Reserved.<br />
+			Icons from <a href="http://glyphicons.com/" target="_blank">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.<br /><br />
+			Author: nash (<a href="http://twitter.com/nash_fs" target="_blank">@nash_fs</a>)<br />
+			Source code now available on <a href="http://github.com/nash716/http-observer" target="_blank">Github</a>.
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a class="btn" data-dismiss="modal">OK</a>
+	</div>
+</div>
 </body>
 </html>
