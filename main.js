@@ -434,7 +434,7 @@ function showRequest(requestId) {
 		if (details.auth.realm) {
 			tbody.append(createTableRow('realm', details.auth.realm));
 		}
-		if (details.auth.realm) {
+		if (details.auth.scheme) {
 			tbody.append(createTableRow('Scheme', details.auth.scheme));
 		}
 		
