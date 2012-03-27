@@ -86,8 +86,98 @@ $(document).ready(function() {
 		}
 	});
 
-});
+});// < や > などの置換
+function text(str) {
+	str = str.split('&').join('&amp;'); //.replace('&', '&amp;');
+	str = str.split('"').join('&quot;'); //.replace('"', '&quot;');
+	str = str.split('<').join('&lt;'); //.replace('<', '&lt;');
+	str = str.split('>').join('&gt;'); //.replace('>', '&gt;');
+	str = str.split("'").join('&#039;'); //.replace("'", '&#039;');
+	return str;
+}
 
+// height に duration ミリ秒でスクロール
+function _scroll(height, duration) {
+	$('div#list').animate({ scrollTop : height }, duration);
+}
+
+// table を作る
+function createTable() {
+	var table = $('<table>').addClass('table table-condensed');
+		var thead = $('<thead>');
+			var tr = $('<tr>');
+				var th1 = $('<th>').text('Event')
+									.css('text-align', 'center');
+				var th2 = $('<th>').text('TimeStamp')
+									.css('text-align', 'center');
+			tr.append(th1).append(th2);
+		thead.append(tr);
+	table.append(thead);
+	
+	return table;
+}
+
+// table の行を作る
+function createTableRow(key, value, isCenter) {
+	var tr = $('<tr>');
+	var td1 = $('<td>').text(key).css('white-space', 'nowrap');
+	if (isCenter) {
+		td1.css('text-align', 'center');
+	}
+	var td2 = $('<td>').text(value);
+	if (isCenter) {
+		td2.css('text-align', 'center');
+	}
+	if (td2.text().length > detailThreshold && detailThreshold != 0) {
+		var fullStr = td2.text().substr(detailThreshold);
+		td2.text(td2.text().substr(0, detailThreshold));
+		var btn = $('<a>').addClass('btn btn-mini')
+						.attr('full-str', fullStr)
+						.text('...')
+						.click(function(e) {
+							e.stopPropagation();
+							$(this).removeClass('btn')
+									.removeClass('btn-mini')
+									.addClass('expand')
+									.text($(this).attr('full-str'));	
+						});
+		td2.append(btn);
+	}
+	tr.append(td1).append(td2);
+	
+	return tr;
+}
+
+// キャプチャターゲットの保存
+function saveCaptureTarget() {
+	captureTarget = $('#target option:checked').val();	
+}
+
+// 省略するしきい値の保存
+function saveThreshold() {
+	listThreshold = localStorage['listThreshold'] = $('#listview').val();
+	detailThreshold = localStorage['detailThreshold'] = $('#detailview').val();
+}chrome.tabs.onRemoved.addListener(onTabsRemoved);
+chrome.tabs.onCreated.addListener(onTabsCreated);
+chrome.tabs.onUpdated.addListener(onTabsUpdated);
+
+
+// キャプチャターゲットが変更された際の処理
+function onTabsRemoved(tabId) {
+	$('#target option[value=' + tabId + ']').remove();
+	$('#target').val('all');
+	captureTarget = 'all';
+};
+
+function onTabsCreated(tab) {
+	$('<option>').attr('value', tab.id)
+				.html(text(tab.title))
+				.appendTo($('#target'));
+};
+
+function onTabsUpdated(tabId, info, tab) {
+	$('#target option[value=' + tabId + ']').text(tab.title);
+};
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, filterObject);
 chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, filterObject);
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, filterObject);
@@ -97,19 +187,6 @@ chrome.webRequest.onBeforeRedirect.addListener(onBeforeRedirect, filterObject);
 chrome.webRequest.onResponseStarted.addListener(onResponseStarted, filterObject);
 chrome.webRequest.onCompleted.addListener(onCompleted, filterObject, ['responseHeaders']);
 chrome.webRequest.onErrorOccurred.addListener(onErrorOccurred, filterObject);
-
-chrome.tabs.onRemoved.addListener(onTabsRemoved);
-chrome.tabs.onCreated.addListener(onTabsCreated);
-chrome.tabs.onUpdated.addListener(onTabsUpdated);
-
-function text(str) {
-	str = str.split('&').join('&amp;'); //.replace('&', '&amp;');
-	str = str.split('"').join('&quot;'); //.replace('"', '&quot;');
-	str = str.split('<').join('&lt;'); //.replace('<', '&lt;');
-	str = str.split('>').join('&gt;'); //.replace('>', '&gt;');
-	str = str.split("'").join('&#039;'); //.replace("'", '&#039;');
-	return str;
-}
 
 function onErrorOccurred(details) {
 	if (!isCapture || !requests[details.requestId]) return;
@@ -270,29 +347,7 @@ function onResponseStarted(details) {
 						.removeClass(function() { })
 						.addClass('icon-download');	
 	
-}
-
-// キャプチャターゲットが変更された際の処理
-function onTabsRemoved(tabId) {
-	$('#target option[value=' + tabId + ']').remove();
-	$('#target').val('all');
-	captureTarget = 'all';
-};
-
-function onTabsCreated(tab) {
-	$('<option>').attr('value', tab.id)
-				.html(text(tab.title))
-				.appendTo($('#target'));
-};
-
-function onTabsUpdated(tabId, info, tab) {
-	$('#target option[value=' + tabId + ']').text(tab.title);
-};
-
-function _scroll(height, duration) {
-	$('div#list').animate({ scrollTop : height }, duration);
-}
-
+}// 詳細ビューを作る
 function showRequest(requestId) {
 	if (!requests[requestId]) return;
 	
@@ -440,58 +495,4 @@ function showRequest(requestId) {
 	} else {
 		$('#details').append('No contents');
 	}
-}
-
-function createTable() {
-	var table = $('<table>').addClass('table table-condensed');
-		var thead = $('<thead>');
-			var tr = $('<tr>');
-				var th1 = $('<th>').text('Event')
-									.css('text-align', 'center');
-				var th2 = $('<th>').text('TimeStamp')
-									.css('text-align', 'center');
-			tr.append(th1).append(th2);
-		thead.append(tr);
-	table.append(thead);
-	
-	return table;
-}
-
-function createTableRow(key, value, isCenter) {
-	var tr = $('<tr>');
-	var td1 = $('<td>').text(key).css('white-space', 'nowrap');
-	if (isCenter) {
-		td1.css('text-align', 'center');
-	}
-	var td2 = $('<td>').text(value);
-	if (isCenter) {
-		td2.css('text-align', 'center');
-	}
-	if (td2.text().length > detailThreshold && detailThreshold != 0) {
-		var fullStr = td2.text().substr(detailThreshold);
-		td2.text(td2.text().substr(0, detailThreshold));
-		var btn = $('<a>').addClass('btn btn-mini')
-						.attr('full-str', fullStr)
-						.text('...')
-						.click(function(e) {
-							e.stopPropagation();
-							$(this).removeClass('btn')
-									.removeClass('btn-mini')
-									.addClass('expand')
-									.text($(this).attr('full-str'));	
-						});
-		td2.append(btn);
-	}
-	tr.append(td1).append(td2);
-	
-	return tr;
-}
-
-function saveCaptureTarget() {
-	captureTarget = $('#target option:checked').val();	
-}
-
-function saveThreshold() {
-	listThreshold = localStorage['listThreshold'] = $('#listview').val();
-	detailThreshold = localStorage['detailThreshold'] = $('#detailview').val();
 }
