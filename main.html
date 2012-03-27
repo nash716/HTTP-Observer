@@ -8,7 +8,6 @@
 	<script src="bootstrap-modal.js" type="text/javascript"></script>
 	<script src="bootstrap-tab.js" type="text/javascript"></script>
 	<link href="bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<link href="bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
 		html {
 			word-break: break-all;
@@ -76,6 +75,7 @@
 		.navbar .nav > li > a:hover {
 			color: #16a !important;
 		}
+		
 	</style>
 </head>
 <body>
@@ -84,7 +84,7 @@
 		<div class="container">
 			<a class="brand">HTTP Observer</a>
 			<ul class="nav">
-				<li><a onclick="location.reload();">Clear</a></li>
+				<li><a onclick="location.reload();">クリア<!-- Clear --></a></li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						Jump
@@ -99,26 +99,26 @@
 			<ul class="nav pull-right">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
-						Settings
+						設定<!-- Settings -->
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a id="checkbox"><input type="checkbox" id="as">&nbsp;Auto Scroll</input></a></li>
-						<li><a id="checkbox-capture"><input type="checkbox" id="iscapture" checked>&nbsp;Capture</input></a></li>
-						<li><a data-toggle="modal" href="#capture">Capture Target</a></li>
-						<li><a data-toggle="modal" href="#threshold">Threshold for omitting</a></li>
+						<li><a id="checkbox"><input type="checkbox" id="as">&nbsp;オートスクロール</input></a></li><!-- Auto Scroll -->
+						<li><a id="checkbox-capture"><input type="checkbox" id="iscapture" checked>&nbsp;キャプチャ</input></a></li><!-- Capture -->
+						<li><a data-toggle="modal" href="#capture">キャプチャターゲットの設定</a></li><!-- Capture Target -->
+						<li><a data-toggle="modal" href="#threshold">省略するしきい値の設定</a></li><!-- Threshold for omitting -->
 					</ul>
 				</li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
-						Help
+						ヘルプ<!-- Help -->
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a data-toggle="modal" href="#usage">Usage</a></li>
+						<li><a data-toggle="modal" href="#usage">使い方<!--Usage--></a></li>
 						<li class="divider"></li>
-						<li><a data-toggle="modal" href="#update">Check for updates</a></li>
-						<li><a data-toggle="modal" href="#about">About HTTP Observer</a></li>
+						<li><a data-toggle="modal" href="#update">アップデートを確認<!-- Check for updates --></a></li>
+						<li><a data-toggle="modal" href="#about">HTTP Observerについて<!--About HTTP Observer --></a></li>
 					</ul>
 				</li>
 			</ul>
@@ -153,52 +153,52 @@
 <div class="modal fade" id="usage" style="display:none">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-		<h3>Usage</h3>
+		<h3>使い方<!-- Usage --></h3>
 	</div>
 	<div class="modal-body">
 		<table class="table table-condensed" id="icon-table">
 			<thead>
 				<tr>
-					<th style="width: 70px; text-align: center">Icon</th>
-					<th>Meaning</th>
+					<th style="width: 70px; text-align: center">アイコン<!-- Icon --></th>
+					<th>意味<!-- Meaning --></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td style="text-align: center"><i class="icon-list"></i></td>
-					<td>Creating request</td>
+					<td>リクエストの生成中<!-- Creating request --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-minus"></i></td>
-					<td>Sending headers</td>
+					<td>リクエストの送信中<!-- Sending headers --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-arrow-right"></i></td>
-					<td>Sent headers</td>
+					<td>リクエストヘッダ送信済み<!-- Sent headers --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-download-alt"></i></td>
-					<td>Received headers</td>
+					<td>レスポンスヘッダ受信済み<!-- Received headers --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-download"></i></td>
-					<td>Receivng response</td>
+					<td>レスポンス受信中<!-- Receivng response --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-lock"></i></td>
-					<td>Authentication required</td>
+					<td>認証が必要<!-- Authentication required --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-share-alt"></i></td>
-					<td>Redirecting</td>
+					<td>リダイレクト中<!-- Redirecting --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-ok"></i></td>
-					<td>Completed</td>
+					<td>完了<!-- Completed --></td>
 				</tr>
 				<tr>
 					<td style="text-align: center"><i class="icon-warning-sign"></i></td>
-					<td>An error occurred</td>
+					<td>エラー<!-- An error occurred --></td>
 				</tr>
 			</tbody>
 		</table>
@@ -211,40 +211,40 @@
 <div class="modal fade" id="capture" style="display:none">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-		<h3>Capture Target</h3>
+		<h3>キャプチャターゲット<!-- Capture Target --></h3>
 	</div>
 	<div class="modal-body">
 		<p>
-			Capture Target: <select id="target"></select>
+			キャプチャ対象のタブ<!-- Capture Target -->: <select id="target"></select>
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a class="btn btn-primary" data-dismiss="modal" onclick="targetSave();">Save changes</a>
-		<a class="btn" data-dismiss="modal">Cancel</a>
+		<a class="btn btn-primary" data-dismiss="modal" onclick="saveCaptureTarget();">設定を保存<!-- Save changes --></a>
+		<a class="btn" data-dismiss="modal">キャンセル<!-- Cancel --></a>
 	</div>
 </div>
 
 <div class="modal fade" id="threshold" style="display:none">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-		<h3>Threshold for omitting</h3>
+		<h3>省略するしきい値<!--Threshold for omitting --></h3>
 	</div>
 	<div class="modal-body">
 		<p>
 			<form class="form-horizontal">
 				<fieldset>
 					<div class="control-group">
-						<label class="control-label" for="listview">List view</label>
+						<label class="control-label" for="listview">リストビュー<!-- List view --></label>
 						<div class="controls">
 							<input type="number" class="input-xlarge" id="listview">
-							<p class="help-block">Not omitted in the 0</p>
+							<p class="help-block">0で省略しない<!-- Not omitted in the 0 --></p>
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="detailview">Detail view</label>
+						<label class="control-label" for="detailview">詳細ビュー<!-- Detail view --></label>
 						<div class="controls">
 							<input type="number" class="input-xlarge" id="detailview">
-							<p class="help-block">Not omitted in the 0</p>
+							<p class="help-block">0で省略しない<!-- Not omitted in the 0 --></p>
 						</div>
 					</div>
 				</fieldset>
@@ -252,18 +252,18 @@
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a class="btn btn-primary" data-dismiss="modal" onclick="thresholdSave();">Save changes</a>
-		<a class="btn" data-dismiss="modal">Cancel</a>
+		<a class="btn btn-primary" data-dismiss="modal" onclick="saveThreshold();">設定を保存<!-- Save changes --></a>
+		<a class="btn" data-dismiss="modal">キャンセル<!-- Cancel --></a>
 	</div>
 </div>
 <div class="modal fade" id="update" style="display: none">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-		<h3>Check for updates</h3>
+		<h3>アップデートの確認<!-- Check for updates --></h3>
 	</div>
 	<div class="modal-body">
 		<p>
-			<div id="checkupdate">Checking for updates...</div>
+			<div id="checkupdate">アップデートの確認中…<!-- Checking for updates... --></div>
 		</p>
 	</div>
 	<div class="modal-footer">
@@ -274,15 +274,15 @@
 <div class="modal fade" id="about" style="display: none">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-		<h3>About HTTP Observer</h3>
+		<h3>HTTP Observerについて<!-- About HTTP Observer --></h3>
 	</div>
 	<div class="modal-body">
 		<p>
 			<img src="icon64.png" style="vertical-align: middle" /> HTTP Observer<br /><br />
 			Copyright &copy; 2012- nash. All Rights Reserved.<br />
 			Icons from <a href="http://glyphicons.com/" target="_blank">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.<br /><br />
-			Author: nash (<a href="http://twitter.com/nash_fs" target="_blank">@nash_fs</a>)<br />
-			Source code now available on <a href="http://github.com/nash716/http-observer" target="_blank">Github</a>.
+			作者：nash (<a href="http://twitter.com/nash_fs" target="_blank">@nash_fs</a>)<br />
+			ソースコードは<a href="http://github.com/nash716/http-observer" target="_blank">Github</a>にあります。
 		</p>
 	</div>
 	<div class="modal-footer">
