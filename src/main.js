@@ -165,8 +165,12 @@ chrome.tabs.onUpdated.addListener(onTabsUpdated);
 // キャプチャターゲットが変更された際の処理
 function onTabsRemoved(tabId) {
 	$('#target option[value=' + tabId + ']').remove();
-	$('#target').val('all');
-	captureTarget = 'all';
+	if ($('#target option[value=' + captureTarget + ']').length == 0) {
+		$('#target').val('all');
+		captureTarget = 'all';
+	} else {
+		$('#target').val(captureTarget);
+	}
 };
 
 function onTabsCreated(tab) {
