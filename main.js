@@ -514,11 +514,11 @@ function createTableRow(key, value, isCenter) {
 	return tr;
 }
 
-function targetSave() {
+function saveCaptureTarget() {
 	captureTarget = $('#target option:checked').val();	
 }
 
-function thresholdSave() {
+function saveThreshold() {
 	listThreshold = localStorage['listThreshold'] = $('#listview').val();
 	detailThreshold = localStorage['detailThreshold'] = $('#detailview').val();
 }
