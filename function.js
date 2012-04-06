@@ -14,13 +14,13 @@ function _scroll(height, duration) {
 }
 
 // table を作る
-function createTable() {
+function createTable(title1, title2) {
 	var table = $('<table>').addClass('table table-condensed');
 		var thead = $('<thead>');
 			var tr = $('<tr>');
-				var th1 = $('<th>').text('Event')
+				var th1 = $('<th>').text(title1)
 									.css('text-align', 'center');
-				var th2 = $('<th>').text('TimeStamp')
+				var th2 = $('<th>').text(title2)
 									.css('text-align', 'center');
 			tr.append(th1).append(th2);
 		thead.append(tr);

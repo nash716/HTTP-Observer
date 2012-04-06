@@ -20,7 +20,7 @@ function showRequest(requestId) {
 	if (details.requestHeaders) {
 		$('#request').append(REQUEST);
 		
-		var table = createTable();
+		var table = createTable('Name', 'Value');
 		var tbody = $('<tbody>');		
 		for(var key in details.requestHeaders) {
 			tbody.append(createTableRow(details.requestHeaders[key].name, details.requestHeaders[key].value));
@@ -36,7 +36,7 @@ function showRequest(requestId) {
 	if (details.responseHeaders) {
 		$('#response').append(RESPONSE);
 		
-		var table = createTable();
+		var table = createTable('Name', 'Value');
 		var tbody = $('<tbody>');		
 		for(var key in details.responseHeaders) {
 			tbody.append(createTableRow(details.responseHeaders[key].name, details.responseHeaders[key].value));
@@ -59,7 +59,7 @@ function showRequest(requestId) {
 	//console.log(details);
 	$('#details').append(DETAILS);
 		
-	var table = createTable();
+	var table = createTable('Name', 'Value');
 	var tbody = $('<tbody>');
 
 	if (details.url) {
@@ -96,7 +96,7 @@ function showRequest(requestId) {
 	if (details.auth) {
 		$('#details').append(AUTH);
 		
-		var table = createTable();
+		var table = createTable('Name', 'Value');
 		var tbody = $('<tbody>');
 		
 		if (details.auth.challenger) {
@@ -122,7 +122,7 @@ function showRequest(requestId) {
 // timeline
 	$('#details').append(EVENT);
 	
-	var table = createTable();
+	var table = createTable('Event', 'TimeStamp');
 	var tbody = $('<tbody>');
 	
 	for (var i=0; i<details.timeStamps.length; i++) {
