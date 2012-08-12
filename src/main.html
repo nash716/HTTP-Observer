@@ -84,15 +84,15 @@
 		<div class="container">
 			<a class="brand">HTTP Observer</a>
 			<ul class="nav">
-				<li><a onclick="location.reload();">クリア<!-- Clear --></a></li>
+				<li><a id="clear">クリア<!-- Clear --></a></li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						ジャンプ
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a onclick="$('div#list').animate({scrollTop:0}, 800);">先頭</a></li>
-						<li><a onclick="$('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800);">後尾</a></li>
+						<li><a id="toTop">先頭</a></li>
+						<li><a id="toBottom">後尾</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -219,7 +219,7 @@
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a class="btn btn-primary" data-dismiss="modal" onclick="saveCaptureTarget();">設定を保存<!-- Save changes --></a>
+		<a class="btn btn-primary" data-dismiss="modal" id="saveSettings">設定を保存<!-- Save changes --></a>
 		<a class="btn" data-dismiss="modal">キャンセル<!-- Cancel --></a>
 	</div>
 </div>
@@ -252,7 +252,7 @@
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a class="btn btn-primary" data-dismiss="modal" onclick="saveThreshold();">設定を保存<!-- Save changes --></a>
+		<a class="btn btn-primary" data-dismiss="modal" id="saveThreshold">設定を保存<!-- Save changes --></a>
 		<a class="btn" data-dismiss="modal">キャンセル<!-- Cancel --></a>
 	</div>
 </div>

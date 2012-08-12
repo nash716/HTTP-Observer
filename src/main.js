@@ -38,7 +38,13 @@ $(document).ready(function() {
 		isCapture =  $('#iscapture').attr('checked');
 		e.stopPropagation();
 	});
-
+	
+	$('#clear').click(function() { location.reload(); });
+	$('#toTop').click(function() { $('div#list').animate({scrollTop:0}, 800); });
+	$('#toBottom').click(function() { $('div#list').animate({scrollTop:$('div#list').get(0).scrollHeight}, 800); });
+	$('#saveSettings').click(function() { saveCaptureTarget(); });
+	$('#saveThreshold').click(function() { saveThreshold(); });
+	
 	$('#update').on('shown', function(e) {
 		$.ajax({
 			url: 'http://chrome.nash-dev.com/observer.version.json',
